@@ -5,10 +5,10 @@
 ## Task
 *From the competition's [website](https://nlpub.github.io/russe-wsi-kit/):*
 
-You are given a word, e.g. `"замок"` and a bunch of text fragments (aka "contexts") where this word occurs, e.g. `"замок владимира мономаха в любече"` and `"передвижению засова ключом в замке"`. You need to cluster these contexts in the (unknown in advance) number of clusters which correspond to various senses of the word. In this example, you want to have two groups with the contexts of the `"lock"` and the `"castle"` senses of the word `"замок"`.
+> You are given a word, e.g. `"замок"` and a bunch of text fragments (aka "contexts") where this word occurs, e.g. `"замок владимира мономаха в любече"` and `"передвижению засова ключом в замке"`. You need to cluster these contexts in the (unknown in advance) number of clusters that correspond to various senses of the word. In this example, you want to have two groups with the contexts of the `"lock"` and the `"castle"` senses of the word `"замок"`.
 
 ## Data
-For this task I only used `active-dict` dataset.
+For this task, I only used the `active-dict` dataset.
 
 The dataset looked like this (e.g. for Russian word `двигатель (engine)`:
 
@@ -29,28 +29,60 @@ I took a fairly simple [approach](https://arxiv.org/ftp/arxiv/papers/1803/1803.0
 3. Cluster context vector representations into different groups representing the "sense" of ambiguous `word`.
 
 ## Preprocessing
-The data was preprocessed as following:
+The data were preprocessed as follows:
 
 * removal of punctuation marks, numbers from `context`;
 * lemmatization of each token in `context`;
 * removal of stop words from `context`;
 * POS tagging of each lemma in `context`.
 
+Very often the context consisted of several sentences.
+
+Some of them have been cut off during compiling of the original dataset, so we were left with this, e.g.:
+
+> японского – то милое и приятное. В нашем случае – яркое, пестрое и разнообразное. В **альбом** вошло 13 песен и два видеотрекы как бонус – на песни «Радио твое» и «Не напишу»
+
+Based on the hypothesis that the meaning of a word is determined by its environment, I decided to remove those sentences from the context that do not initially contain the word for which we are trying to determine its meaning.
+
+After this kind of preprocessing, the above sentence will look like this:
+
+> *<s>японского – то милое и приятное. В нашем случае – яркое, пестрое и разнообразное.</s> В **альбом** вошло 13 песен и два видеотрекы как бонус – на песни «Радио твое» и «Не напишу»*
+
 ## Embeddings
 I used [RusVectores](https://rusvectores.org/ru/models/) for this task.
 
 For the `active-dict` dataset the embedding model trained on the RNC - **ruscorpora_upos_cbow_300_20_2019** showed the best result.
 
-For the `active-rutenten` dataset (which mainly consisted of texts obtained by web scraping), a model trained on the Areneum corpus **araneum_upos_skipgram_300_2_2018** was used. This embeddings were trained using texts obtained from sites in the .ru and .рф domains.
+For the `active-rutenten` dataset (which mainly consisted of texts obtained by web scraping), a model trained on the Areneum corpus **araneum_upos_skipgram_300_2_2018** was used. These embeddings were trained using texts obtained from sites in the .ru and .рф domains.
 
-Also I tried to use sentence-level embeddings like [USE](https://tfhub.dev/google/universal-sentence-encoder-multilingual/3) and [RusVectores ELMo](https://rusvectores.org/ru/models/), but the clustering results were either comparable to W2V or worse.
+Also, I tried to use sentence-level embeddings like [USE](https://tfhub.dev/google/universal-sentence-encoder-multilingual/3) and [RusVectores ELMo](https://rusvectores.org/ru/models/), but the clustering results were either comparable to W2V or worse.
 
 ### Vector weights
-The vector of each word in `context` was weighted by varying weights (**chi2 coefficients, tf_idf, weights based on word frequencies**). This approach [showed](http://www.dialog-21.ru/media/4538/arefyevn_ermolaevp_panchenkoa.pdf) promising results.
+The vector of each word in `context` was weighted by varying weights (**chi2 coefficients, tf_idf, weights based on word frequencies**). 
+
+This approach [showed](http://www.dialog-21.ru/media/4538/arefyevn_ermolaevp_panchenkoa.pdf) promising results.
 
 ## Clustering
+Several [algorithms](http://www.dialog-21.ru/media/4385/panchenko.pdf) were used:
+* Affinity Propagation;
+* Spectral Clustering;
+* Agglomerative clustering;
+* K-Means;
+* HDBSCAN;
+* Birch.
+
+Best of all result for the `active-dict` dataset was shown by [combination](http://www.dialog-21.ru/media/4311/kutuzovab.pdf) of **Affinity Propagation** and **Agglomerative clustering**.
+
+**Affinity Propagation** would find the number of clusters for each word and **Agglomerative clustering**, by using this number of clusters, would cluster context embeddings into groups.
+
+For the `active-rutenten` dataset clustering in one stage using **Agglomerative clustering** algorithm with the predefined number of **3** clusters worked relatively well.
+
+Also, if you don't want to use a predefined number of clusters - **HDBSCAN** has shown relatively good results either.
 
 ## Results
+[Adjusted Rand index (ARI)](https://en.wikipedia.org/wiki/Rand_index#Adjusted_Rand_index) was used as an evaluation score.
+
+Results were compared to **[AdaGram model](https://github.com/lopuhin/python-adagram)** provided by the organizers and **randomly generated labels** (from 1 to 3 different labels).
 
 | Dataset/ARI  | AdaGram  | Trivial (random-1-3)  | My approach  |
 |---|---|---|---|
