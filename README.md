@@ -75,7 +75,7 @@ Best of all result for the `active-dict` dataset was shown by [combination](http
 
 **Affinity Propagation** would find the number of clusters for each word and **Agglomerative clustering**, by using this number of clusters, would cluster context embeddings into groups.
 
-For the `active-rutenten` dataset clustering in one stage using **Agglomerative clustering** algorithm with the predefined number of **3** clusters worked relatively well.
+For the `active-rutenten` dataset, clustering in one stage using **Agglomerative clustering** algorithm with the predefined number of **3** clusters worked relatively well.
 
 Also, if you don't want to use a predefined number of clusters - **HDBSCAN** has shown relatively good results either.
 
