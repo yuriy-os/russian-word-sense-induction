@@ -42,7 +42,7 @@ Some of them have been cut off during compiling of the original dataset, so we w
 
 > японского – то милое и приятное. В нашем случае – яркое, пестрое и разнообразное. В **альбом** вошло 13 песен и два видеотрекы как бонус – на песни «Радио твое» и «Не напишу»
 
-Based on the hypothesis that the meaning of a word is determined by its environment, I decided to remove those sentences from the context that do not initially contain the word for which we are trying to determine its meaning.
+Based on the hypothesis that the meaning of a word is determined by its environment, I decided to remove sentences from the context that do not initially contain the word for which we are trying to determine its meaning.
 
 After this kind of preprocessing, the above sentence will look like this:
 
