@@ -1,2 +1,18 @@
 # russian-word-sense-induction
-My submission for RUSSE 2018 Word Sense Induction and Disambiguation Shared Task
+
+# Task
+*From the comeptition's [website](https://nlpub.github.io/russe-wsi-kit/):*
+
+You are given a word, e.g. `"замок"` and a bunch of text fragments (aka "contexts") where this word occurs, e.g. `"замок владимира мономаха в любече"` and `"передвижению засова ключом в замке"`. You need to cluster these contexts in the (unknown in advance) number of clusters which correspond to various senses of the word. In this example, you want to have two groups with the contexts of the `"lock"` and the `"castle"` senses of the word `"замок"`.
+
+# My approach
+
+# Data
+
+# Preprocessing
+
+# Embeddings
+
+# Clustering
+
+# Results
