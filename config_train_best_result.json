@@ -1,0 +1,53 @@
+{
+    "dataset": {
+        "path": "data/main/active-dict/train_preprocessed.csv",
+        "query_word_column": "word_lemma_pos",
+        "context_column": "context_lemma_pos",
+        "gold_sense_column": "gold_sense_id"
+    },
+    "embeddings": {
+        "path": "embeddings/ruscorpora_upos_cbow_300_20_2019/model.bin",
+        "vector_size": 300
+    },
+    "weights": {
+        "use_chi2": true,
+        "use_tf_idf": false,
+        "use_freq": false,
+        "chi2": {
+            "power": 1
+        },
+        "tf_idf": {
+            "power": 1
+        },
+        "freq": {
+            "power": 1
+        }
+    },
+    "clustering": {
+        "use_hdbscan": false,
+        "clusters_predefined": false,
+        "n_clusters_predefined": 3,
+        "hdbscan": {
+            "min_samples": 1,
+            "min_cluster_size": 20
+        },
+        "aff_prop": {
+            "damping": 0.5,
+            "preference": null
+        },
+        "agg_clust": {
+            "linkage": "ward"
+        }
+    },
+    "dim_reduction": {
+        "pca": {
+            "n_components": 5
+        },
+        "umap": {
+            "n_neighbors": 30,
+            "min_dist": 0,
+            "n_components": 2,
+            "random_state": 42
+        }
+    }
+}
