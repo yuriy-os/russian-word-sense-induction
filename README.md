@@ -89,3 +89,10 @@ Results were compared to **[AdaGram model](https://github.com/lopuhin/python-ada
 | active-dict **train**  |0.159930|0.014134|**0.240510**|
 | active-dict **test**  |0.161189|-0.006112|**0.237777**|
 | active-rutenten **train** |0.195162|0.000677|**0.216266** (3 clusters)|
+
+## References
+1. Panchenko, A., Lopukhina, A., Ustalov, D., Lopukhin, K., Arefyev, N., Leontyev, A., & Loukachevitch, N. (2018). RUSSE'2018: a shared task on word sense induction for the Russian language. arXiv preprint arXiv:1803.05795.
+2. Kutuzov A., Kuzmenko E. (2017) WebVectors: A Toolkit for Building Web Interfaces for Vector Semantic Models. In: Ignatov D. et al. (eds) Analysis of Images, Social Networks and Texts. AIST 2016. Communications in Computer and Information Science, vol 661. Springer, Cham
+3. Arefyev, N., Ermolaev, P., & Panchenko, A. (2018). How much does a word weigh? Weighting word embeddings for word sense induction. arXiv preprint arXiv:1805.09209.
+4. Kutuzov, A. (2018). Russian word sense induction by clustering averaged word embeddings. arXiv preprint arXiv:1805.02258.
+5. Bartunov, S., Kondrashkin, D., Osokin, A., & Vetrov, D. (2016, May). Breaking sticks and ambiguities with adaptive skip-gram. In artificial intelligence and statistics (pp. 130-138).
